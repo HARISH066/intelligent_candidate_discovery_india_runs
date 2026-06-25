@@ -43,6 +43,10 @@ A high semantic match isn't enough if a candidate isn't viable. Base scores are 
 
 ### 1. Interactive Visual Sandbox (Streamlit)
 A lightweight visualizer allowing users to tweak AI weights and view live scoring against a sample dataset.
+**👉 [Test the Live AI Sandbox Here](https://intelligentcandidatediscoveryindiaruns-nq8bcnh2zwgvmxhyzsezpw.streamlit.app/)**
+
+### 2. Full Headless Execution (The Hackathon Pipeline)
+A lightweight visualizer allowing users to tweak AI weights and view live scoring against a sample dataset.
 ```bash
 pip install -r requirements.txt
 streamlit run app.py
