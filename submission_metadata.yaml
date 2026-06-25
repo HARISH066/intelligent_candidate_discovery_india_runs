@@ -1,0 +1,65 @@
+# ============================================================================
+# Team identity
+# ============================================================================
+team_name: "SmartMinds"
+
+primary_contact:
+  name: "Harikrishnan R"
+  email: "harishtherock2001@gmail.com"   
+  phone: "+91 9080294900"        
+
+team_members:
+  - name: "Harikrishnan R"
+    email: "harishtherock2001@gmail.com"
+    role: "AI Engineer"
+  - name: "Mohamed Yousuff Liaquathali"
+    email: "m.y.liaquathali@student.utwente.nl"
+    role: "Data Scientist"
+  
+# ============================================================================
+# Code and reproducibility
+# ============================================================================
+github_repo: "https://github.com/HARISH066/intelligent_candidate_discovery_india_runs/"
+
+sandbox_link: "https://intelligentcandidatediscoveryindiaruns-nq8bcnh2zwgvmxhyzsezpw.streamlit.app/"
+
+reproduce_command: "python rank.py"
+
+# ============================================================================
+# Compute environment
+# ============================================================================
+compute:
+  platform: "Local Windows Box"                    
+  cpu_cores: 8                                  
+  ram_gb: 16                                    
+  python_version: "3.11"                      
+  os: "Windows 10"                              
+  uses_gpu_for_inference: false                 
+  has_network_during_ranking: false             
+  pre_computation_required: false               
+  pre_computation_time_minutes: 0               
+
+# ============================================================================
+# AI tools declaration
+# ============================================================================
+ai_tools_used:
+  - "Gemini"        
+
+ai_usage_summary: |
+  Used Gemini to architect the memory-safe data streaming pipeline, write the semantic vector ranking logic, debug Windows path execution, and build the Streamlit frontend. No candidate data was fed to the LLM.
+
+# ============================================================================
+# Approach summary (optional but recommended)
+# ============================================================================
+methodology_summary: |
+  Hybrid semantic and rule-based pipeline. Stage 1 (The Bouncer) uses memory-safe JSONL generators to instantly drop honeypots, ghost candidates (<10% response rate), and severe role mismatches. Stage 2 (Semantic Engine) uses local all-MiniLM-L6-v2 embeddings and NumPy matrix operations to calculate cosine similarity against the JD. Stage 3 applies behavioral multipliers based on Redrob signals (GitHub activity boosts). Actively maintains a Min-Heap for highly efficient Top-100 sorting within the 5-minute CPU limit.
+
+# ============================================================================
+# Declarations
+# ============================================================================
+declarations:
+  read_submission_spec: true        
+  code_is_original_work: true       
+  no_collusion: true                
+  honeypot_check_done: true        
+  reproduction_tested: true
