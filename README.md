@@ -37,10 +37,7 @@ A high semantic match isn't enough if a candidate isn't viable. Base scores are 
 
 ---
 
-### Next Steps
-Once you push your `app.py`, `requirements.txt`, `sample_candidates.json`, and this `README.md` to your public GitHub repo, your Sandbox is ready to be deployed.
 
-<FollowUp label="Metadata Submission" query="Have you successfully deployed the Streamlit Cloud link, and are you ready to fill out the final `submission_metadata.yaml` file?"/>
 
 ## 🚀 How to Run the Project
 
@@ -49,3 +46,8 @@ A lightweight visualizer allowing users to tweak AI weights and view live scorin
 ```bash
 pip install -r requirements.txt
 streamlit run app.py
+```
+### Next Steps
+Once you push your `app.py`, `requirements.txt`, `sample_candidates.json`, and this `README.md` to your public GitHub repo, your Sandbox is ready to be deployed.
+
+<FollowUp label="Metadata Submission" query="Have you successfully deployed the Streamlit Cloud link, and are you ready to fill out the final `submission_metadata.yaml` file?"/>
