@@ -1,53 +1,68 @@
-# 🚀 Deep-Match AI: Intelligent Candidate Discovery
+# 🚀 SmartMinds: Agentic AI Discovery Engine
+**Submission for the India Runs Data & AI Challenge**
 
-An offline-capable, highly optimized hybrid AI ranking system built for the **Redrob INDIA RUNS Hackathon**. 
+SmartMinds is a next-generation, privacy-first talent intelligence platform. It abandons traditional keyword filters and brittle Regex rules in favor of a **Dual-AI Architecture**, combining local Agentic LLMs with high-dimensional Vector Matrix math.
 
-This pipeline processes 100,000 candidate profiles under strict CPU constraints (5-minute limit, 16GB RAM, No Network), dodging dataset traps and intelligently surfacing the top 100 candidates based on true semantic fit and behavioral viability.
+## 🧠 The Architecture (How it Works)
 
----
+1. **The Normalizer Agent (Local Gemma3):** Real-world Job Descriptions are messy (containing emojis, URLs, salaries, and company fluff). Instead of brittle Regex, SmartMinds uses a local **Ollama-powered Gemma3 Agent** to dynamically read, sanitize, and extract pure technical requirements. It is prompted with strict "Anti-Hallucination" guardrails to guarantee it only extracts factual requirements.
+2. **The Vector Engine (SentenceTransformers):** The pristine requirements are passed to a local `all-MiniLM-L6-v2` model, projecting them into a 384-dimensional vector space.
+3. **MaxSim Matrix Math:** Instead of blending candidate resumes into a single diluted vector, the engine splits candidate data into a "constellation" of fragments (Role, Education, Skills). It calculates a Maximum Similarity (MaxSim) matrix to find the absolute strongest correlation for *every individual requirement*.
 
-## 🧠 The Architecture
+**Security & Privacy:** Because both the Gemma3 LLM and the SentenceTransformer run 100% locally on the host machine, zero candidate data is ever sent to external APIs like OpenAI or Google. 
 
-Traditional ATS systems fail because they rely on exact keyword matching, easily fooled by "keyword stuffers." This solution utilizes a 3-stage Hybrid RAG and Multi-Signal Scoring architecture:
+## ✨ Key Features
+* **Zero-Shot JD Extraction:** Paste any corporate JD template, web scrape, or unstructured text. The local agent handles it effortlessly.
+* **Dynamic Candidate Filtering:** The UI mathematically adapts to the size of your uploaded candidate pool, allowing recruiters to instantly filter the top 10, 25, 50, or custom *N* candidates without breaking the interface.
+* **AI Logic Inspector:** Standard AI recruitment tools are "black boxes." SmartMinds features a built-in Transparency Engine. Clicking on any candidate reveals the exact mathematical alignment between the employer's requirement and the specific fragment of the candidate's resume that triggered the match, ensuring total recruiter trust.
 
-### 1. The Bouncer (Heuristic Guardrails)
-To satisfy the 5-minute CPU constraint and prevent memory overflow, data is streamed efficiently (`gzip`/JSONL generators). Candidates are instantly disqualified if they:
-* Trigger dataset honeypots (e.g., impossible years of experience).
-* Exhibit "Ghost" behavior (e.g., `< 10%` recruiter response rate, `> 90 days` notice period).
-* Misalign fundamentally on role (e.g., title is "Marketing Manager" despite containing AI buzzwords).
-
-### 2. The Semantic Engine (Vector Matching)
-Surviving candidates are processed via a local embedding model (`all-MiniLM-L6-v2` via `sentence-transformers`). 
-* The Job Description and Candidate Profiles are converted into 384-dimensional dense vectors.
-* **Cosine Similarity** is calculated using pure `numpy` matrix operations to determine true conceptual alignment, bypassing the need for exact keyword matches.
-
-### 3. The Multiplier (Behavioral Integration)
-A high semantic match isn't enough if a candidate isn't viable. Base scores are modified using Redrob platform signals:
-* **Bonuses:** Up to 15% score boost for high GitHub activity markers.
-* **Penalties:** Score reductions for relocation inflexibility.
-* The system actively maintains a rolling Top-100 Min-Heap to minimize sorting overhead.
+## 📂 Repository Structure
+* `app.py`: The core Streamlit application containing the UI, the Ollama API bridge, and the vector math engine.
+* `requirements.txt`: Python dependencies (`streamlit`, `pandas`, `sentence-transformers`, `requests`, etc.).
+* `sample_candidates.json`: The database of unstructured candidate profiles.
+* `submission.csv` & `submission_metadata.yaml`: Hackathon submission artifacts.
 
 ---
 
-## 🛠️ Tech Stack
-* **Language:** Python 3.11+
-* **AI/ML:** `sentence-transformers`, `numpy` (Local Execution)
-* **Frontend Sandbox:** `streamlit`, `pandas`
-* **Data Processing:** Native `json`, `heapq`, `gzip` (Memory-safe streaming)
+## 🛠️ How to Run Locally
 
----
+### Prerequisites
+Before you begin, ensure you have the following installed on your machine:
+* **Python 3.9+**
+* **[Ollama](https://ollama.com/)** (Required to run the local extraction agent)
 
+### Step-by-Step Setup
 
+**Step 1: Start the Local AI Model**
+Open your terminal and pull the Gemma3 model via Ollama. *(Keep this terminal open in the background so the model stays active).*
+```bash
+ollama run gemma3:4b
+```
 
-## 🚀 How to Run the Project
+**Step 2: Clone the Repository**
+Open a **new** terminal window and clone this project:
+```bash
+git clone https://github.com/HARISH066/intelligent_candidate_discovery_india_runs.git
+cd intelligent_candidate_discovery_india_runs
+```
 
-### 1. Interactive Visual Sandbox (Streamlit)
-A lightweight visualizer allowing users to tweak AI weights and view live scoring against a sample dataset.
-**👉 [Test the Live AI Sandbox Here](https://intelligentcandidatediscoveryindiaruns-nq8bcnh2zwgvmxhyzsezpw.streamlit.app/)**
+**Step 3: Create a Virtual Environment (Recommended)**
+```bash
+python -m venv venv
+# On Windows:
+venv\Scripts\activate
+# On macOS/Linux:
+source venv/bin/activate
+```
 
-### 2. Full Headless Execution (The Hackathon Pipeline)
-A lightweight visualizer allowing users to tweak AI weights and view live scoring against a sample dataset.
+**Step 4: Install Dependencies**
 ```bash
 pip install -r requirements.txt
+```
+
+**Step 5: Launch the App**
+Ensure your virtual environment is activated, then start the Streamlit server:
+```bash
 streamlit run app.py
 ```
+*The application will automatically open in your default web browser at `http://localhost:8501`.*
