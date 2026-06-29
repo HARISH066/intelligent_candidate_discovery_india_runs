@@ -257,16 +257,35 @@ if 'results_df' in st.session_state:
     if not df.empty:
         df = df.sort_values(by="Final Score", ascending=False).reset_index(drop=True)
         
-        st.subheader("🏆 Top Aligned Talent Shortlist")
+        # --- NEW: Dynamic Dropdown Logic ---
+        total_cands = len(df)
+        
+        # Base options we want to offer
+        base_options = [10, 25, 50, 100, 250, 500]
+        
+        # Only keep options that are smaller than the total pool
+        valid_options = [opt for opt in base_options if opt < total_cands]
+        
+        # Always add the exact total number of candidates as the maximum option
+        valid_options.append(total_cands)
+        
+        col1, col2 = st.columns([4, 1])
+        with col1:
+            st.subheader("🏆 Top Aligned Talent Shortlist")
+        with col2:
+            # The dropdown now perfectly adapts to the dataset size
+            top_n = st.selectbox("Number of candidates to show:", valid_options, index=0)
+            
         display_df = df.drop(columns=["_breakdown"]).copy()
         display_df["Final Score"] = (display_df["Final Score"] * 100).round(2).astype(str) + "%"
-        st.dataframe(display_df.head(10), use_container_width=True)
+        
+        st.dataframe(display_df.head(top_n), width='stretch')
         
         st.markdown("---")
         st.subheader("🔍 AI Logic Inspector (Transparency Engine)")
         st.markdown("Notice how the Local LLM automatically stripped the URLs and emojis, passing only the true requirements to the Vector Engine.")
         
-        top_candidates = df.head(10)
+        top_candidates = df.head(top_n)
         selected_id = st.selectbox(
             "Select a Candidate ID to audit:", 
             top_candidates["Candidate ID"].tolist()
@@ -276,4 +295,4 @@ if 'results_df' in st.session_state:
         breakdown_df = pd.DataFrame(selected_cand_data["_breakdown"])
         breakdown_df["Score"] = (breakdown_df["Score"] * 100).round(1).astype(str) + "%"
         
-        st.dataframe(breakdown_df, use_container_width=True)
+        st.dataframe(breakdown_df, width='stretch')
